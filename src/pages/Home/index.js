@@ -27,49 +27,37 @@ function Home() {
     let isActive = true;
 
     async function getMovies() {
-      // const [nowData, popularData, topData] = await Promise.all([
-      //   api.get("/movie/now_playing", {
-      //     params: {
-      //       api_key: key,
-      //       language: "pt-BR",
-      //       page: 1,
-      //     },
-      //   }),
+      const [nowData, popularData, topData] = await Promise.all([
+        api.get("movie/now_playing", {
+          params: {
+            api_key: key,
+            language: "pt-BR",
+            page: 1,
+          },
+        }),
+        api.get("movie/popular", {
+          params: {
+            api_key: key,
+            language: "pt-BR",
+            page: 1,
+          },
+        }),
+        api.get("movie/top_rated", {
+          params: {
+            api_key: key,
+            language: "pt-BR",
+            page: 1,
+          },
+        }),
+      ]);
 
-      //   api.get("/movie/popular", {
-      //     params: {
-      //       api_key: key,
-      //       language: "pt-BR",
-      //       page: 1,
-      //     },
-      //   }),
+      const nowList = getListMovies(10, nowData.data.results);
+      const popularList = getListMovies(6, popularData.data.results);
+      const topList = getListMovies(6, topData.data.results);
 
-      //   api.get("/movie/top_rated", {
-      //     params: {
-      //       api_key: key,
-      //       language: "pt-BR",
-      //       page: 1,
-      //     },
-      //   }),
-
-      // ]);
-
-      // const nowList = getListMovies(10, nowData.data.results);
-      // const popularList = getListMovies(5, popularData.data.results);
-      // const topList = getListMovies(5, topData.data.results);
-
-      // setNowMovies(nowList);
-      // setPopularMovies(popularList);
-      // setTopMovies(topList);
-      const response = await api.get("/movie/now_playing", {
-        params: {
-          api_key: key,
-          language: "pt-BR",
-          page: 1,
-        },
-      });
-
-      console.log(response.data);
+      setNowMovies(nowList);
+      setPopularMovies(popularList);
+      setTopMovies(topList);
     }
 
     getMovies();
@@ -92,7 +80,7 @@ function Home() {
           <Banner
             resizeMethod="resize"
             source={{
-              uri: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80",
+              uri: "https://github.com/LukasWyver.png",
             }}
           />
         </BannerButton>
@@ -118,7 +106,7 @@ function Home() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           data={topMovies}
-          renderItem={({ item }) => <SliderItem item={item} />}
+          renderItem={({ item }) => <SliderItem data={item} />}
           keyExtractor={(item) => String(item.id)}
         />
       </ScrollView>

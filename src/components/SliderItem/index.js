@@ -1,17 +1,24 @@
 import React from "react";
+
 import { Container, BannerItem, Title, RateContainer, Rate } from "./styles";
+
 import { Ionicons } from "@expo/vector-icons";
 
-function SliderItem() {
+function SliderItem({ data }) {
   return (
-    <Container activeOpacity={0.8}>
-      <BannerItem source={{ uri: "https://github.com/lukaswyver.png" }} />
+    <Container activeOpacity={0.9}>
+      <BannerItem
+        resizeMethod="resize"
+        source={{
+          uri: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
+        }}
+      />
 
-      <Title numberOfLines={1}>LukasWyver</Title>
+      <Title numberOfFiles={1}>{data.title}</Title>
 
       <RateContainer>
-        <Ionicons name="md-star" size={12} color="#e7a74e" />
-        <Rate>9/10</Rate>
+        <Ionicons name="md-star" size={16} color="#E7A74E" />
+        <Rate>{data.vote_average}</Rate>
       </RateContainer>
     </Container>
   );
